@@ -1,0 +1,30 @@
+import { profile } from '../data/resume'
+import TagSpiral from './TagSpiral'
+
+export default function Hero() {
+  return (
+    <section id="top" className="relative overflow-hidden">
+      <div className="container-content grid min-h-[92vh] grid-cols-[1fr_1fr] items-stretch gap-8 pb-20 pt-32 sm:gap-10">
+        {/* 左侧: 徽章 + 超大标题 + 介绍 + CTA */}
+        <div>
+          <span className="label inline-block rounded-full border-[1.5px] border-accent px-4 py-1.5 text-accent">
+            {profile.badge}
+          </span>
+
+          <h1 className="mt-8 whitespace-nowrap text-[clamp(2.5rem,8vw,6.5rem)] font-black leading-[1.05] tracking-tight text-ink">
+            {profile.headline}
+          </h1>
+
+          <p className="body-lg mt-8 max-w-2xl text-lg sm:text-xl">
+            {profile.intro}
+          </p>
+        </div>
+
+        {/* 右侧: 技能标签螺旋卡片 */}
+        <div className="h-full">
+          <TagSpiral />
+        </div>
+      </div>
+    </section>
+  )
+}

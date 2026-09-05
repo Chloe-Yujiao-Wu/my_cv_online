@@ -1,0 +1,121 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg-rgb: 231 232 228; /* #E7E8E4 底色 */
+    --card-rgb: 255 255 255; /* 白色卡片 */
+    --soft-rgb: 220 221 217; /* 次级背景 */
+    --ink-rgb: 19 19 18; /* 近黑主文字 */
+    --muted-rgb: 82 82 91; /* 次级文字 */
+    --line-rgb: 210 211 207; /* 分隔线 */
+    --footer-rgb: 11 11 12; /* 黑色页脚 */
+    --accent-rgb: 107 123 180; /* #6B7BB4 */
+    --accent-dark-rgb: 85 99 150; /* 深一档 */
+  }
+  .dark {
+    --bg-rgb: 10 10 11;
+    --card-rgb: 23 23 26;
+    --soft-rgb: 29 29 33;
+    --ink-rgb: 244 244 242;
+    --muted-rgb: 161 161 170;
+    --line-rgb: 42 42 46;
+    --footer-rgb: 17 17 19;
+    --accent-rgb: 147 164 193; /* #93A4C1 暗色模式用浅色保证对比度 */
+    --accent-dark-rgb: 170 185 210;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-canvas text-ink antialiased transition-colors duration-300;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  }
+}
+
+@layer components {
+  .container-content {
+    @apply mx-auto w-full max-w-content px-6 sm:px-8 lg:px-12;
+  }
+  .section {
+    @apply py-20 sm:py-28;
+  }
+
+  /* 统一排版层次体系 */
+  .section-title {
+    @apply text-4xl font-black tracking-tight text-ink sm:text-5xl;
+  }
+  .section-eyebrow {
+    @apply flex items-center gap-3 text-xs font-bold uppercase tracking-[0.2em] text-accent;
+  }
+  .heading-2 {
+    @apply text-2xl font-black tracking-tight text-ink sm:text-3xl;
+  }
+  .heading-3 {
+    @apply text-xl font-bold tracking-tight text-ink sm:text-2xl;
+  }
+  .heading-4 {
+    @apply text-lg font-bold tracking-tight text-ink;
+  }
+  .body-lg {
+    @apply text-lg leading-relaxed text-muted;
+  }
+  .body-base {
+    @apply text-base leading-relaxed text-muted;
+  }
+  .body-sm {
+    @apply text-sm leading-relaxed text-muted;
+  }
+  .label {
+    @apply text-sm font-semibold;
+  }
+  .caption {
+    @apply text-xs font-medium;
+  }
+
+  .link-accent {
+    @apply text-accent transition-colors hover:text-accent-dark;
+  }
+  /* 卡片表面 */
+  .surface-card {
+    @apply rounded-2xl border border-line bg-card transition-colors duration-300;
+  }
+  /* 次级背景区块 */
+  .surface-soft {
+    @apply bg-soft/50 dark:bg-soft/30;
+  }
+  .border-base {
+    @apply border-line;
+  }
+
+  /* 隐私保护毛玻璃蒙版: 覆盖人像照片与敏感文字, 模糊到无法辨认五官/具体内容
+     使用主题卡片色变量, 明/暗模式下均呈现自然的磨砂玻璃质感 */
+  .privacy-mask {
+    @apply pointer-events-none absolute inset-0 z-10;
+    border-radius: inherit;
+    background: rgb(var(--soft-rgb) / 0.6);
+    backdrop-filter: blur(16px) saturate(1.15);
+    -webkit-backdrop-filter: blur(16px) saturate(1.15);
+  }
+  /* 照片蒙版: 模糊强度更高, 确保五官完全不可辨认 */
+  .privacy-mask-photo {
+    background: rgb(var(--card-rgb) / 0.55);
+    backdrop-filter: blur(24px) saturate(1.05);
+    -webkit-backdrop-filter: blur(24px) saturate(1.05);
+  }
+
+  /* 局部文字模糊: 只隐藏一段文字的后半部分(前几个字保持清晰可读)
+     直接作用于文字本身, 随文字自然换行, 模糊到无法辨认具体内容 */
+  .privacy-blur {
+    @apply select-none;
+    filter: blur(5px);
+    -webkit-filter: blur(5px);
+  }
+  /* 大字号文字(如标题)需要更强的模糊才完全不可辨认 */
+  .privacy-blur-strong {
+    filter: blur(7px);
+    -webkit-filter: blur(7px);
+  }
+}
